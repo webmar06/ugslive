@@ -1,0 +1,172 @@
+{% extends '../base.html' %}
+
+{% block body %}
+
+<div class="data-table-area">
+    <div class="container-fluid">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div
+                        class="page-title-box d-flex align-items-center justify-content-between">
+                        <h4 class="mb-0 text-warning">Admin Staking Accounts</h4>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 col-md-12">
+            <a class="card m-0" href="javascript:void(0)">
+                <div class="card-footer ">
+                    <div class="row clearfix">
+                        <div class="col-12">
+                            <h2 style="color:aliceblue"> Staking Amount</h2>
+                            <form id="stakingForm" autocomplete="off">
+                                <div class="mb-3">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Username</span>
+                                        </div>
+                                        <select class="form-control acc_stat text-white" name="userid" id="userid" onchange="selecteduser(this)">
+                                            <option value="">- - - </option>
+                                            {% for u in users %}
+                                            <option value="{{ u.id}}|{{ u.username}}|{{u.first_name}}, {{u.last_name}}">{{ u.username}} - [ {{u.first_name}}, {{u.last_name}} ]</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <i id="nfacc_stat" style="font-size:10px;color: red;"></i>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Amount  </span>
+                                        </div>
+                                        <input type="number" min="0" step="any" class="form-control" name="stakeamnt" id="stakeamnt" onkeyup="stakeAmount(this)"/>
+                                    </div> 
+                                    <i id="nfadmincommi" style="font-size:10px;color: red;"></i>
+                                </div>
+                                <div class="mb-3" style="color: aliceblue;">
+                                    Username: <span id="uname"></span><br>
+                                    Full Name: <span id="fname"></span><br>
+                                    Amount: <span id="amtname"></span><br>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <button type="submit" class="btn btn-warning btn-block">Send Staking Amount To:  <label style="color: black;font-weight: 600;" id="sendto"></label></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+    
+    
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive" id="import_raw_table">
+                    <table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Code</th>
+                                <th>Amount</th>
+                                <th>Sender</th>
+                                <th>Receiver</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="acc_tbl">
+                            {% for stake in adstakelist %}
+                            <tr>
+                                <td>{{ stake.s_id }}. </td>
+                                <td>{{ stake.s_code }}</td>
+                                <td>{{ stake.s_amount }}</td>
+                                <td>{{ stake.s_sender.username }} - {{ stake.s_sender.first_name }}</td>
+                                <td>{{ stake.s_user.username }} - {{ stake.s_user.first_name }}</td>
+                                <td>{{ stake.s_date }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $('#stakingForm').on('submit', function(e) {
+        e.preventDefault();
+        var valuserid = document.getElementById('userid').value;
+        var valstakeamnt = document.getElementById('stakeamnt').value;
+        if(valuserid && valstakeamnt){
+            var values = valuserid.split('|');
+            var userId = values[0];
+            if(valstakeamnt >0){
+                $.ajax({
+                    method: 'POST',
+                    url: '{% url "loadStaking" %}',
+                    data:{valstakeamnt:valstakeamnt,userId:userId},
+                    success: function(res) {
+                        if (res.data === 'ok') {
+                            toastr["success"]("Stake amount successfully sent!");
+                            document.getElementById('userid').value='';
+                            document.getElementById('stakeamnt').value='';
+                            $("#import_raw_table").load('load_stake_tbl');
+                        }else {
+                            toastr["warning"]("Error: " + JSON.stringify(res.errors));
+                        }
+                    }
+                });
+            }else{
+                toastr["error"]("Invalid inputs!");
+            }
+        }else{
+            toastr["error"]("All fields are required!");
+        }
+    });
+    
+    
+    
+    
+    function selecteduser(option){
+        var optionVal = option.value;
+        if(optionVal){
+            var values = optionVal.split('|');
+            var userId = values[0];
+            var username = values[1];
+            var fullname = values[2];
+        }else{
+            var userId = "";
+            var username = "";
+            var fullname = "";
+        }
+        document.getElementById('uname').innerHTML=username;
+        document.getElementById('fname').innerHTML=fullname;
+        document.getElementById('sendto').innerHTML="("+username+")";
+    }
+    function stakeAmount(amntVal){
+        var amntValue = amntVal.value;
+        document.getElementById('amtname').innerHTML=amntValue;
+    }
+    
+    
+    
+    
+    
+    var stakeamnt = document.getElementById('stakeamnt');
+    stakeamnt.addEventListener("keydown", function(e) {
+        if (invalidChars.includes(e.key)) {
+            e.preventDefault();
+        }
+    });
+</script>
+{% endblock %}
+
+

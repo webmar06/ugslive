@@ -1,0 +1,79 @@
+{% extends '../base.html' %}
+
+{% block body %}
+
+<div class="data-table-area">
+    <div class="container-fluid">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div
+                            class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0 text-warning">User Accounts</h4>
+                            <div class="page-title-right">
+                                <button type="button" class="btn btn-outline-warning mb-2 me-2" data-bs-toggle="modal"
+                                data-bs-target="#adduser"><i class="icon-profile-male"></i> &nbsp; Add Account</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                    
+                        <table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+                            <thead>
+                                <tr>
+                                    <th>Date Joined</th>
+                                    <th>Username</th>
+                                    <th>Category</th>
+                                    <th>Wallet Points</th>
+                                    <th>Commission Rate</th>
+                                    <th>Refer By</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+
+                            <tbody id="acc_tbl">
+                                {% for u in users %}
+                                {% if u.useraccount.usertype != 'SUPER ADMIN' %}
+                                <tr>
+                                    <td>{{u.date_joined}}</td>
+                                    <td class="text-white fs-4" style="text-transform: capitalize;">{{ u.username}}</td>
+                                    <td>{{ u.useraccount.usertype}}</td>
+                                    <td>{{ u.userwallet.w_balance}}</td>
+                                    <td>{{ u.userwallet.commission_rate}}</td>
+                                    <td style="text-transform: capitalize;" class="fw-bolder">{{ u.useraccount.user_agent}}</td>
+                                    <td>
+                                        {% if u.useraccount.status == 'ACTIVE' %}
+                                        <button type="button" class="btn btn-success btn-sm mb-2 me-2 btn-stat" acc="{{ u.username}}" aid="{{u.id}}"  st="{{u.useraccount.status}}" comirate="{{ u.userwallet.commission_rate}}">ACTIVE</button>
+                                        {% elif u.useraccount.status == 'INACTIVE' %}
+                                        <button type="button" class="btn btn-warning btn-sm mb-2 me-2 btn-stat" acc="{{ u.username}}" aid="{{u.id}}" st="{{u.useraccount.status}}" comirate="{{ u.userwallet.commission_rate}}">INACTIVE</button>
+                                        {% else %}
+                                        <button type="button" class="btn btn-danger btn-sm mb-2 me-2 btn-stat" acc="{{ u.username}}" aid="{{u.id}}" st="{{u.useraccount.status}}" comirate="{{ u.userwallet.commission_rate}}">BANNED</button>
+                                        {% endif %}
+                                    </td>
+                                    <td> <button type="button" class="btn btn-secondary btn-sm mb-2 me-2 btn-preview" acc="{{ u.username}}" aid="{{u.id}}" st="{{u.useraccount.status}}"><i class="fa fa-eye"></i> View</button></td>
+                                </tr>
+                                {% endif %}
+                                {% endfor %}
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+           
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

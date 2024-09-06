@@ -1,0 +1,36 @@
+<!-- New User Add Modal -->
+<div class="modal fade" id="adduser" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">User Account</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="account_reg" autocomplete="off">
+                    {% for i in signup_frm %}
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">{{i.label}}</label>
+                        {{i}}
+                    </div>
+                    {% endfor %}
+                    
+                    {% for u in user_frm %}
+                    <label for="email-name" class="col-form-label">{{ u.label}}</label>
+                    <div class="account mb-3">
+                        {{u}}
+                
+                    </div>
+                    {% endfor%}
+              
+            </div>
+            <div class="adduser_err">
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button> -->
+                <button type="submit" class="btn btn-warning">Submit</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>

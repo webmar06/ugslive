@@ -1,0 +1,81 @@
+{% extends '../base.html' %}
+
+{% block body %}
+
+<div class="data-table-area">
+    <div class="container-fluid">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div
+                            class="page-title-box d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0 text-warning">My Agent Accounts</h4>
+                            <div class="page-title-right">
+                                <button type="button" class="btn btn-outline-warning mb-2 me-2" data-bs-toggle="modal"
+                                data-bs-target="#adduser"><i class="icon-profile-male"></i> &nbsp; Add Agent</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                    
+                        <table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+                            <thead>
+                                <tr>
+                                    <th>Date Joined</th>
+                                    <th>Username</th>
+                                    <th>Commission Rate</th>
+                                    <th>Category</th>
+                                    <th>Wallet Points</th>
+                                    <th>Status</th>
+                                    
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="acc_tbl">
+                                {% for u in users %}
+                                {% if u.useraccount.user_agent == user %}
+                                <tr>
+                                    <td>{{u.date_joined}}</td>
+                                    <td class="text-white fs-4" style="text-transform: capitalize;">{{ u.username}}</td>
+                                    <td class="text-warning text-center">
+                                        {% if u.commissionrate.rate == '' %}
+                                        <span class="badge text-bg-danger">Not Set</span>
+                                        {% else %}
+                                        <span class="badge text-bg-success fs-4 fw-bolder">{{ u.commissionrate.rate }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ u.useraccount.usertype}}</td>
+                                    <td>{{ u.userwallet.w_balance}}</td>
+                                    <td>
+                                        {% if u.useraccount.status == 'ACTIVE' %}
+                                        <button type="button" class="btn btn-success btn-sm mb-2 me-2 btn-stat" acc="{{ u.username}}" aid="{{u.id}}"  st="{{u.useraccount.status}}">ACTIVE</button>
+                                        {% elif u.useraccount.status == 'INACTIVE' %}
+                                        <button type="button" class="btn btn-warning btn-sm mb-2 me-2 btn-stat" acc="{{ u.username}}" aid="{{u.id}}" st="{{u.useraccount.status}}">INACTIVE</button>
+                                        {% else %}
+                                        <button type="button" class="btn btn-danger btn-sm mb-2 me-2 btn-stat" acc="{{ u.username}}" aid="{{u.id}}" st="{{u.useraccount.status}}">BANNED</button>
+                                        {% endif %}
+                                    </td>
+                                    <td> <button type="button" class="btn btn-secondary btn-sm mb-2 me-2 btn-preview" acc="{{ u.username}}" aid="{{u.id}}" st="{{u.useraccount.status}}"><i class="fa fa-eye"></i> View</button></td>
+                                </tr>
+                                {% endif %}
+                                {% endfor %}
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+           
+        </div>
+    </div>
+</div>
+
+{% endblock %}

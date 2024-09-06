@@ -1,0 +1,419 @@
+
+{% load static %}
+{% if page == 'USERS' %}
+
+
+
+<div class="modal fade" id="upuser" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="game_title">Update Account Status</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="msg"></div>
+                <form id="upuser_frm" autocomplete="off">
+                    Account: <span class="uname fs-3 fw-bolder" style="text-transform: capitalize;">Username</span>
+                    <div class="mb-3">
+                        <select class="form-control acc_stat text-white" name="acc_stat" id="agntacc_stat">
+                            <option value="ACTIVE">ACTIVE</option>
+                            <option value="INACTIVE">INACTIVE</option>
+                            <option value="BANNED">BANNED</option>
+                        </select>
+                        <i id="nfacc_stat" style="font-size:10px;color: red;"></i>
+                    </div>
+                    <div class="mb-3">
+                        <label>Player Commission</label>
+                        <input type="number" min="0" step="any" class="form-control" name="agentcommi" id="agentcommi" value="0"/>
+                        <i id="nfadmincommi" style="font-size:10px;color: red;"></i>
+                    </div>
+                    <input type="hidden" class="acc_id" name="acc_id">
+                    <div class="adduser_err"></div>
+                    <div class="modal-footer">
+                        <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button> -->
+                        <button type="submit" for="upuser_frm" class="btn btn-warning">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- New User Add Modal -->
+<div class="modal fade" id="adduser" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">User Account</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="account_reg" autocomplete="off">
+                    {% for i in signup_frm %}
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">{{i.label}}</label>
+                        {{i}}
+                    </div>
+                    {% endfor %}
+                    
+                    {% for u in user_frm%}
+                    <label for="email-name" class="col-form-label">{{ u.label}}</label>
+                    <div class="account mb-3">
+                        {{u}}
+                        
+                    </div>
+                    {% endfor%}
+                    
+                </div>
+                <div class="adduser_err">
+                </div>
+                <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button> -->
+                    <button type="submit" class="btn btn-warning">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+
+{% if user.useraccount.usertype == 'DECLARATOR' %}
+<!-- Fight Setting -->
+{% if page == 'DECLA ARENA' %}
+<div class="modal fade" id="fightsetting" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="">Fight Settings</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                
+                <div class="msg"></div>
+                <form id="fsetting" autocomplete="off">
+                    <!-- {{fform}} -->
+                    <input type="hidden" name="f_game"  class="form-control f_game" required="" id="id_f_game">
+                    <input type="hidden" name="f_id"  class="form-control fid" required="" id="id_f_id">
+                    <input type="hidden" name="f_winner"  class="form-control f_winner"  id="id_f_winner">
+                    <input type="hidden" name="f_longest"  class="form-control f_longest"  id="id_f_longest">
+                    
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Event Game</label>
+                        <input type="text"  class="form-control fgame" required="" >
+                    </div>
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Fight No.</label>
+                        <input type="number" name="f_number"  class="form-control fight_no" required="" id="id_f_number">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Bet Multiplier</label>
+                        <input type="decimal" name="f_multiplier"  class="form-control fmulti" required="" id="id_f_multiplier">
+                    </div>
+                    
+                    <div class="mb-3" hidden >
+                        <label for="recipient-name" class="col-form-label">Status</label>
+                        <select name="f_status" class="form-control f_status" id="id_f_status">
+                            <option value="CLOSED">CLOSED</option>
+                            <option value="OPEN">OPEN</option>
+                        </select>
+                    </div>
+                    <input id="id_f_tblrows" name="f_tblrows" required="" type="hidden" value="0">
+                    
+                    <div class="form-check form-switch form-switch-md mb-2">
+                        <input class="form-check-input me-3 sub_type" name="f_type" type="checkbox" id="flexSwitchCheckChecked" checked="">
+                        <label class="form-check-label" for="flexSwitchCheckChecked"><span class="ftype">Update Existing Fight?</span></label>
+                    </div>
+                    
+                    
+                </div>
+                <div class="adduser_err">
+                </div>
+                <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button> -->
+                    
+                    <button type="submit" class="btn btn-warning fs-2 fsubmit w-100">Update Current Fight?</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+{% endif %}
+<!-- New User Add Modal -->
+{% if page == 'DECLA GAMES' %}
+<div class="modal fade" id="addgames" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="game_title">Add Game</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="msg"></div>
+                <form id="addgame" autocomplete="off">
+                    {% csrf_token%}
+                    {% for i in game_frm %}
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">{{i.label}}</label>
+                        {{i}}
+                    </div>
+                    {% endfor %}
+                    
+                </div>
+                <div class="adduser_err">
+                </div>
+                <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button> -->
+                    <button type="submit" for="addgame" class="btn btn-warning">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="updategames" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="">Update Game</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="msg"></div>
+                <form id="updategame" autocomplete="off">
+                    <input type="hidden" class="form-control g_id" name="g_id" value="">
+                    <div class="mb-3 text-center">
+                        <img src="" class="img_preview" style="width: 200px;height: 200px;">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Title</label>
+                        <input type="text" name="g_name" placeholder="Title" class="form-control g_name" required="" id="id_g_name">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Meron Name</label>
+                        <input type="text" name="g_redname" placeholder="Red Side" class="form-control g_redname" required="" id="id_g_redname">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Wala Name</label>
+                        <input type="text" name="g_bluename" placeholder="Blue Side" class="form-control g_bluename" required="" id="id_g_bluename">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Plasada</label>
+                        <input type="number" name="g_plasada" placeholder="Plasada" class="form-control g_plasada" step="any" required="" id="id_g_plasada">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Description</label>
+                        <textarea name="g_desc" cols="40" rows="5" class="form-control g_desc" required="" id="id_g_desc"></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Category</label>
+                        <select name="g_category" class="form-control g_category" id="id_g_category">
+                            <option value="E-SABONG">E-SABONG</option>
+                            <option value="BALL GAMES">BALL GAMES</option>
+                            <option value="PERYA">PERYA</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Game Url</label>
+                        <input type="text" name="g_link" placeholder="Url" class="form-control g_link" required="" id="id_g_link">
+                    </div>
+                    
+                    
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Event Image</label>
+                        <input type="file" name="g_image" class="form-control g_image" value="potaka"  id="id_g_image">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Status</label>
+                        <select name="g_status" class="form-control g_status" id="id_g_status">
+                            <option value="CLOSED">CLOSED</option>
+                            <option value="OPEN">OPEN</option>
+                            
+                        </select>
+                    </div>
+                    
+                    
+                    
+                    
+                </div>
+                <div class="adduser_err">
+                </div>
+                <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button> -->
+                    <button type="submit" for="addgame" class="btn btn-warning">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+
+
+{% endif %}
+
+
+
+{% if page == 'AGENTPLAYER' %}
+<div class="modal fade" id="activateplyr" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="game_title">Update Account Status</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="msg"></div>
+                <form id="activate_form" autocomplete="off">
+                    Account: <span class="unames fs-3 fw-bolder" style="text-transform: capitalize;">Username</span>
+                    <hr>
+                    <div class="mb-3">
+                        <label>Player Status</label>
+                        <select class="form-control acc_stat text-white" id="plstatus" name="plstatus">
+                            <option value="ACTIVE">ACTIVE</option>
+                            <option value="INACTIVE">INACTIVE</option>
+                            <option value="BANNED">BANNED</option>
+                        </select>
+                        <i id="nfplstatus" style="font-size:10px;color: red;"></i>
+                    </div>
+                    <div class="mb-3">
+                        <label>Agent Commission</label>
+                        <input type="number" step="any" class="form-control" name="commission" id="commission"/>
+                        <i id="nfcommission" style="font-size:10px;color: rgb(221, 140, 140);"></i>
+                    </div>
+                    <input type="hidden" class="acct_id" name="acct_id" id="acct_id">
+                    <input type="hidden" name="commirate" id="commirate" value="{{user.userwallet.commission_rate}}"/>
+                    <input type="hidden" name="agentid" id="agentid" value="{{user.id}}"/>
+                </div>
+                <div class="adduser_err">
+                </div>
+                <div class="modal-footer">
+                    <i id="notifid" style="font-size:12px;color: red;"></i>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" for="upuser_frm" class="btn btn-warning" id="commibtn">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    var commission = document.getElementById('commission');
+    commission.addEventListener("keydown", function(e) {
+        if (invalidChars.includes(e.key)) {
+            e.preventDefault();
+        }
+    });
+</script>
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+{% if page == 'CASHOUT APPROVAL' %}
+<div class="modal fade" id="agentcashout" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog"><br><br><br><br><br><br><br><br>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="game_title">Agent Cashout Approval</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div> 
+            <div class="modal-body">
+                <form id="agenCahoutFrom" autocomplete="off">
+                    Player: <span class="requestor"></span><hr>
+                    <div class="mb-3 text-center">
+                        <span class="coutid"></span><br>
+                        <label>Cashout Amount</label>
+                        <h1 class="outamt text-warning"></h1>
+                    </div>
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label>Cashout Status</label>
+                        <select class="form-control acc_stat text-white" id="coutstat" onchange="cashoutaction(this)">
+                            <option value=""> - - - </option>
+                            <option value="1">APPROVED</option>
+                            <option value="2">DECLINE</option>
+                        </select>
+                        <i id="nfplstatus" style="font-size:10px;color: red;"></i>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="vcoutid"/>
+                    <i id="notifid" style="font-size:12px;color: red;"></i>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" for="upuser_frm" class="btn btn-warning" id="cashoutbtn" disabled><span class="cstat" style="color: black;"></span> Cashout</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+
+
+
+
+{% if page == 'WALLET' %}
+<div class="modal fade" id="cashoutnowmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md"><br><br><br><br><br><br><br><br>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="game_title">Cashout Request</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div> 
+            <form id="cashOutform">
+                <div class="modal-body">
+                    <div class="col-12">
+                        <div  class="text-center" >
+                            <span class="text-warning" style="font-size: 25px;" id="points">{% load humanize %} {{ user.userwallet.w_balance|floatformat:"2"|intcomma}}</span><br>
+                            <span style="margin-top: -10px;">Available</span>
+                        </div>
+                        {% csrf_token %}
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Amount</span>
+                            </div>
+                            <input type="number" min="1" step="any" class="form-control" id="cashout" required/>
+                        </div>
+                        <h>Cashout to: <i class="text-warning">{{agent.user_agent.username}}</i></h5><br> 
+                        </div>                    
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        <input type="hidden" value="{{user.userwallet.w_balance}}" id="balance" step="any" required readonly/>
+                        <button class="btn btn-warning btn-block" id="outbtn">CashOut</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    
+    
+    
+    
+    
+    
+    
+    

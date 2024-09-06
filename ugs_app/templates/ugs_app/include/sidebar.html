@@ -1,0 +1,59 @@
+
+<nav>
+    <ul class="sidebar-menu" data-widget="tree">
+        <li class="menu-header-title">{{ user.useraccount.usertype}}</li>
+        <li class="{% if page == 'HOMEPAGE' %} active {% endif %}"><a href="{% url 'homepage' %}"><i class='bx bx-home-heart'></i><span>Dashboard</span></a></li>
+        {% if user.useraccount.usertype == 'SUPER ADMIN' %}
+        <li class="{% if page == 'USERS' %} active {% endif %}"><a href="users"><i class="ti-user"></i><span> Accounts</span></a></li>
+        <li class="{% if page == 'adminloadPoints'%}active{%endif%}"><a href="{% url 'admin_points'%}"><i class="pe-7s-diamond"></i><span>Load Points</span></a></li>
+        <li class="{% if page == 'staking' %} active {% endif %}"><a href="adstaking"><i class="ti-stats-up"></i><span> Load Staking </span></a></li>
+        {% endif %}
+
+
+        {% if user.useraccount.usertype == 'ADMIN'  %}
+        <li class="{% if page == 'USERS' %} active {% endif %}"><a href="admin-accounts"><i class="ti-user"></i><span> Accounts</span></a></li>
+        {% endif %}
+        
+
+
+        {% if user.useraccount.usertype == 'PLAYER' %}
+        <li class="treeview {% if page == 'GAMES' %} active {% endif %}">
+            <a href="javascript:void(0)"><i class="pe-7s-joy"></i><span>Games</span> <i
+                    class="fa fa-angle-right"></i></a>
+            <ul class="treeview-menu ">
+                <li class="{% if page == 'GAMES' %} active {% endif %}"><a href="{% url 'games' %}">Online Sabong</a></li>
+                <!-- <li><a href="#">Ball Games</a></li> -->
+            </ul>
+        </li>
+        {% endif %}
+       
+
+
+
+        {% if user.useraccount.usertype == 'DECLARATOR' %}
+        <li class="{% if page == 'DECLA GAMES' %} active {% endif %}"><a href="{% url 'decla_games' %}"><i class="pe-7s-joy"></i><span> Games</span></a></li>
+        {% endif %}
+
+
+
+        {% if user.useraccount.usertype == 'AGENT' %}
+        <li class="{% if page == 'AGENTPLAYER' %} active {% endif %}"><a href="{% url 'agentplayer' %}"><i class="pe-7s-network"></i><span> Agent Player</span></a></li>
+        <li class="{% if page == 'LOAD POINTS'%}active{%endif%}"><a href="{% url 'load_points'%}"><i class="pe-7s-diamond"></i><span>Load Points</span></a></li>
+        {% endif %}
+
+
+
+
+        {% if user.useraccount.usertype == 'AGENT' or user.useraccount.usertype == 'SUPER ADMIN' %}
+        <li class="{% if page == 'CASHOUT APPROVAL'%}active{%endif%}"><a href="{% url 'cashoutapproval'%}"><i class="pe-7s-cash"></i><span>Agent Cashout</span></a></li>
+        {% endif %}
+
+        <li class="{% if page == 'WALLET' %} active {% endif %}"><a href="{% url 'userwallet' %}"><i class='bx bx-wallet'></i><span> Wallet</span></a></li>
+
+
+        <li class="{% if page == 'SETTING' %} active {% endif %}"><a href="{% url 'setting' %}" ><i class="ti-settings"></i><span>Setting</span></a>
+        </li>
+    
+    </ul>
+</nav>
+

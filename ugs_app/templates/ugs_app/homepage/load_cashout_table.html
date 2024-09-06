@@ -1,0 +1,41 @@
+<table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Transaction</th>
+            <th>Amount</th>
+            <th>Date Request</th>
+            <th>Date Approved</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody id="acc_tbl">
+        {% for cashout in transactions %}
+        <tr>
+            <td>{{ cashout.cw_id }}. </td>
+            <td>{{ cashout.cw_code }} </td>
+            <td><span class="text-danger">- </span></span>{{ cashout.cw_out }}</td>
+            <td>{{ cashout.cw_created }}</td>
+            <td>{{ cashout.cw_appdate }}</td>
+            <td>
+                {% if cashout.cw_stat == '0' %}
+                <button type="button" class="btn btn-outline-warning btn-pill btn-sm mb-2 me-2"><small>WAITING</small></button>
+                {% elif cashout.cw_stat == '1' %}
+                <button type="button" class="btn btn-outline-success btn-pill btn-sm mb-2 me-2"><small>APPROVED</small></button>
+                {% elif cashout.cw_stat == '2' %}
+                <button type="button" class="btn btn-outline-danger btn-pill btn-sm mb-2 me-2"><small>DECLINED</small></button>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<script>
+    $("#selection-datatable").DataTable({
+        select: { style: "multi" },
+        language: { paginate: { previous: "<i class='bx bx-chevron-left'></i>", next: "<i class='bx bx-chevron-right'></i>" } },
+        drawCallback: function () {
+            $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
+        },
+    })
+</script>

@@ -1,0 +1,162 @@
+{% extends '../base.html' %}
+
+{% block body %}
+
+<div class="data-table-area">
+    <div class="container-fluid">
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body card-breadcrumb">
+                        <div
+                        class="page-title-box d-flex align-items-center justify-content-between">
+                        <h4 class="mb-0 text-warning">User Wallet</h4>
+                        {% if user.useraccount.usertype != 'PLAYER' %}
+                        <label id="commis">Commission Rate: {{user.userwallet.commission_rate}}</label>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+        
+        
+        
+        
+        <div class="col-sm-6 col-lg-6 col-xxl-3 ">
+            <div class="card ">
+                <div class="card-body" data-intro="New Orders">
+                    <div class="single-widget d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="widget-icon " >
+                                <i class="bx bx-mouse-alt text-success" ></i>
+                            </div>
+                            <div class="widget-desc">
+                                <h5><span class="text-warning" style="font-size: 20px;">{% load humanize %} {{ user.userwallet.w_betwins|floatformat:"2"|intcomma}}</span> |  Total wins</h5>
+                                <p class="mb-0">Betting wins</p>
+                            </div>
+                        </div>
+                        <div class="progress-report" data-title="progress" data-intro="And this is the last step!">
+                            <!-- <p> 5,959.56</p> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-6 col-xxl-3 ">
+            <div class="card ">
+                <div class="card-body" data-intro="New Orders">
+                    <div class="single-widget d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="widget-icon " >
+                                <i class="bx bx-mouse-alt text-success" ></i>
+                            </div>
+                            <div class="widget-desc">
+                                <h5><span class="text-warning" style="font-size: 20px;">{% load humanize %} {{ user.userwallet.w_commission|floatformat:"2"|intcomma}}</span> |  total commission</h5>
+                                <p class="mb-0">Betting Commission</p>
+                            </div>
+                        </div>
+                        <div class="progress-report" data-title="progress" data-intro="And this is the last step!">
+                            <!-- <p> 5,959.56</p> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-6 col-xxl-3 ">
+            <div class="card ">
+                <div class="card-body" data-intro="New Orders">
+                    <div class="single-widget d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="widget-icon " >
+                                <i class="bx bx-mouse-alt text-success" ></i>
+                            </div>
+                            <div class="widget-desc">
+                                <h5><span class="text-warning" style="font-size: 20px;" id="newtotalout">{% load humanize %} {{ user.userwallet.wallet_out|floatformat:"2"|intcomma}}</span> |  total cashout</h5>
+                                <p class="mb-0">Cashout Request</p>
+                            </div>
+                        </div>
+                        <div class="progress-report" data-title="progress" data-intro="And this is the last step!">
+                            <!-- <p> 5,959.56</p> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-6 col-xxl-3 ">
+            <div class="card ">
+                <div class="card-body" data-intro="New Orders">
+                    <div class="single-widget d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="widget-icon " >
+                                <i class="bx bx-mouse-alt text-success" ></i>
+                            </div>
+                            <div class="widget-desc">
+                                <h5><span class="text-warning" style="font-size: 20px;" id="walletbal">{% load humanize %} {{ user.userwallet.w_balance|floatformat:"2"|intcomma}}</span> |  balance</h5>
+                                <p class="mb-0">Wallet Points</p>
+                            </div>
+                        </div>
+                        <div class="progress-report" data-title="progress" data-intro="And this is the last step!">
+                            {% if user.useraccount.usertype != 'SUPER ADMIN' %}
+                            <p class="cashoutnow"><a href="javascript:void(0)"><b>CASHOUT NOW!</b></a> </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+        
+        
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive" id="import_new_table">
+                        <table id="selection-datatable" class="table dt-responsive nowrap w-100 ">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Transaction</th>
+                                    <th>Amount</th>
+                                    <th>Date Request</th>
+                                    <th>Date Approved</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="acc_tbl">
+                                {% for cashout in transactions %}
+                                <tr>
+                                    <td>{{ cashout.cw_id }}. </td>
+                                    <td>{{ cashout.cw_code }} </td>
+                                    <td><span class="text-danger">- </span></span>{{ cashout.cw_out }}</td>
+                                    <td>{{ cashout.cw_created }}</td>
+                                    <td>{{ cashout.cw_appdate }}</td>
+                                    <td>
+                                        {% if cashout.cw_stat == '0' %}
+                                        <button type="button" class="btn btn-outline-warning btn-pill btn-sm mb-2 me-2"><small>WAITING</small></button>
+                                        {% elif cashout.cw_stat == '1' %}
+                                        <button type="button" class="btn btn-outline-success btn-pill btn-sm mb-2 me-2"><small>APPROVED</small></button>
+                                        {% elif cashout.cw_stat == '2' %}
+                                        <button type="button" class="btn btn-outline-danger btn-pill btn-sm mb-2 me-2"><small>DECLINED</small></button>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+
+

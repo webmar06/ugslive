@@ -1,0 +1,57 @@
+{% load static %}
+<header class="top-header-area d-flex align-items-center justify-content-between">
+    <div class="left-side-content-area d-flex align-items-center">
+        <!-- Mobile Logo -->
+        <div class="mobile-logo">
+            <a href="index.html"><img src="{% static 'ugs_app/img/logo2.png' %}" alt="Mobile Logo"></a>
+        </div>
+        
+        <!-- Triggers -->
+        <div class="flapt-triggers">
+            <div class="menu-collasped" id="menuCollasped">
+                <i class='bx bx-grid-alt'></i>
+            </div>
+            <div class="mobile-menu-open" id="mobileMenuOpen">
+                <i class='bx bx-grid-alt'></i>
+            </div>
+        </div>
+        
+        <!-- Left Side Nav -->
+        <div class="nav-item ">
+            <p class="mb-0">Wallet : <span class="fw-bolder fs-3 text-warning wbalance" id="walletview">
+                {% load humanize %}
+                {{ user.userwallet.w_balance|floatformat:"0"|intcomma}}
+            </span></p>
+        </div>
+        
+        
+    </div>
+    
+    <div class="right-side-navbar d-flex align-items-center justify-content-end">
+        <!-- Mobile Trigger -->
+        <div class="right-side-trigger" id="rightSideTrigger">
+            <i class='bx bx-menu-alt-right'></i>
+        </div>
+        
+        <!-- Top Bar Nav -->
+        <ul class="right-side-content d-flex align-items-center">
+            
+            
+            
+            <li class="nav-item dropdown">
+                <span class="fw-bold text-white usertext" style="text-transform: capitalize;">{{user.username}}</span>
+                <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false"><img src="{% static 'ugs_app/img/user.png' %}"
+                alt=""></button>
+                <div class="dropdown-menu profile dropdown-menu-right">
+                    <!-- User Profile Area -->
+                    <div class="user-profile-area">
+                        <a href="{% url 'userwallet' %}" class="dropdown-item"><i class="bx bx-wallet font-15"aria-hidden="true"></i> My wallet</a>
+                        <a href="{% url 'setting' %}" class="dropdown-item"><i class="bx bx-wrench font-15"aria-hidden="true"></i> settings</a>
+                        <a href="{% url 'signout' %}" class="dropdown-item"><i class="bx bx-power-off font-15"aria-hidden="true"></i> Sign-out</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</header>
